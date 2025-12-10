@@ -8,8 +8,16 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    proxyTable: {},
+    assetsPublicPath: '/report/',
+    proxyTable: {
+      '/report': {
+        target: 'http://127.0.0.1:9095',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/report': '/report'
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -30,7 +38,6 @@ module.exports = {
     /**
      * Source Maps
      */
-
     // https://webpack.js.org/configuration/devtool/#development
     devtool: 'cheap-source-map',
 
@@ -57,12 +64,12 @@ module.exports = {
      * then assetsPublicPath should be set to "/bar/".
      * In most cases please use '/' !!!
      */
-    assetsPublicPath: '/',
+    // 修改为相对路径，确保静态资源使用相对路径引用
+    assetsPublicPath: './',
 
     /**
      * Source Maps
      */
-
     productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: 'source-map',

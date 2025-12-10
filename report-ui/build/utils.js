@@ -10,6 +10,11 @@ exports.assetsPath = function(_path) {
       ? config.build.assetsSubDirectory
       : config.dev.assetsSubDirectory
 
+  // 在生产环境中，使用相对路径确保静态资源正确引用
+  if (process.env.NODE_ENV === 'production') {
+    return path.posix.join(assetsSubDirectory, _path)
+  }
+  
   return path.posix.join(assetsSubDirectory, _path)
 }
 

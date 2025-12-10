@@ -305,5 +305,6 @@ export const constantRouterMap = [
 
 export default new Router({
   scrollBehavior: () => ({ y: 0 }),
+  base: '/report',  // 添加base路径
   routes: constantRouterMap
 })

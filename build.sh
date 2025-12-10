@@ -10,7 +10,7 @@ BuildDir=`pwd` #工程根目录
 echo "build web"
 cd $BuildDir/report-ui
 echo "npm install"
-npm install
+npm install --force
 if [ $? -ne 0 ]; then
   npm install --registry=https://mirrors.cloud.tencent.com/npm/
 fi

@@ -4,12 +4,12 @@
   "description": "report-ui",
   "author": "beliefteam",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build": "cross-env NODE_ENV=production node build/build.js",
-    "build:dev": "cross-env NODE_ENV=development node build/build.js",
-    "build:test": "cross-env NODE_ENV=testing node build/build.js",
-    "build:prod": "cross-env NODE_ENV=production node build/build.js"
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=production node build/build.js",
+    "build:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=development node build/build.js",
+    "build:test": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=testing node build/build.js",
+    "build:prod": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=production node build/build.js"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-decoupled-document": "^23.1.0",

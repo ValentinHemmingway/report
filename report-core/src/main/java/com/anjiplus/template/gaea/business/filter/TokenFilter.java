@@ -73,28 +73,6 @@ public class TokenFilter implements Filter {
             return;
         }
 
-        /** 修复 国家信息安全漏洞共享平台披露的漏洞 CNVD-2024-34975
-         * 避免，通过/dataSetParam/verification;swagger-ui，方式，绕过TokenFilter
-         * 当初在开发期，为方便前后联调，引入了swagger-ui，目前前后端接口基本稳定，同时考虑目前大部分aj-report没有二开能力，
-         * 我们再三斟酌，删除swagger-ui，二开的同学如有需要，自己添加。
-         */
-        // swagger相关的直接放行
-        /*
-        if (uri.contains("swagger-ui") || uri.contains("swagger-resources")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        */
-
-        if (SLASH.equals(uri) || SLASH.concat(BusinessConstant.SLASH).equals(uri)) {
-            if (BusinessConstant.SLASH.equals(uri)) {
-                response.sendRedirect("/index.html");
-                return;
-            }
-            response.sendRedirect(SLASH + "/index.html");
-            return;
-        }
-
         // 不需要token验证和权限验证的url，直接放行
         boolean skipAuthenticate = skipAuthenticatePattern.matcher(uri).matches();
         if (skipAuthenticate) {
@@ -195,13 +173,13 @@ public class TokenFilter implements Filter {
      * @return
      */
     private AtomicBoolean authorize(HttpServletRequest request, String gaeaUserJsonStr){
-
         //判断接口权限
         //请求路径
         String requestUrl = request.getRequestURI();
-        if (!BusinessConstant.SLASH.equals(SLASH)) {
-            requestUrl = requestUrl.substring(SLASH.length());
-        }
+        // 不再处理context-path，因为在TokenFilter中已经正确处理了跳过认证的URL
+        // if (!BusinessConstant.SLASH.equals(SLASH)) {
+        //     requestUrl = requestUrl.substring(SLASH.length());
+        // }
         String methodValue = request.getMethod();
         //请求方法+#+请求路径
         String path = methodValue + GaeaConstant.URL_SPLIT + requestUrl;
