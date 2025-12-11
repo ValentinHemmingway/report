@@ -53,6 +53,7 @@
 
 <script>
 import { preview, exportExcel } from "@/api/GaeaReport";
+import { getShareToken, getToken } from "@/utils/auth";
 
 export default {
   name: "Login",
@@ -106,6 +107,19 @@ export default {
     async preview() {
       this.excelData = {};
       this.params.reportCode = this.reportCode;
+      
+      // 检查是否有有效的token或shareToken
+      const token = getToken();
+      const shareToken = getShareToken();
+      
+      // 如果既没有token也没有shareToken，提示用户需要通过正确途径访问
+      if ((!token || token === '') && (!shareToken || shareToken === '')) {
+        this.$message.warning("请通过正确的分享链接访问或先登录系统");
+        // 可以选择跳转到登录页或其他处理方式
+        // this.$router.push('/login');
+        return;
+      }
+      
       const { code, data } = await preview(this.params);
       if (code != 200) return;
       this.reportName = JSON.parse(data.jsonStr).name;
