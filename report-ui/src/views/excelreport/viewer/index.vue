@@ -55,6 +55,7 @@
 import { preview, exportExcel } from "@/api/GaeaReport";
 import { getShareToken, getToken } from "@/utils/auth";
 
+
 export default {
   name: "Login",
   components: {},
@@ -119,7 +120,7 @@ export default {
         // this.$router.push('/login');
         return;
       }
-      
+
       const { code, data } = await preview(this.params);
       if (code != 200) return;
       this.reportName = JSON.parse(data.jsonStr).name;
